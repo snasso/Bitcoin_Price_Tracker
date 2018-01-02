@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+}
+
+.navBar {
+  background: rgb(16,24,32);
+  padding-left: 1em;
+}
+
+.dateButton {
+  float: left;
+}
+
+.hidden a.button-collapse {
+  display: none;
+}
+
+
