@@ -96,15 +96,12 @@ class App extends Component {
   dateSelect = (e) => {
     let value = e.target.value;
 
-    switch(value) {
-      case "2":
-        this.numDaysAgo(30);
-        break;
-      case "3":
-        this.numDaysAgo(365);
-        break;
-      default:
-        this.numDaysAgo(7);
+    if (value === "2") {
+      this.numDaysAgo(30);
+    } else if (value === "3") {
+      this.numDaysAgo(365);
+    } else {
+      this.numDaysAgo(7);
     }
   }
 
@@ -161,8 +158,8 @@ class App extends Component {
                 <option value="2">Last Month</option>
                 <option value="3">Last Year</option>
               </Input>
-              <Input s={6} type="date" label="Start Date" placeholder="Start Date" value={this.state.startDate} name="on" onChange={this.setStartDate} />
-              <Input s={6} type="date" label="End Date" placeholder="End Date" value={this.state.endDate} name="on" onChange={this.setEndDate} />
+              <Input s={6} type="date" label="Start Date" placeholder="Start Date" value={this.state.startDate} onChange={this.setStartDate} />
+              <Input s={6} type="date" label="End Date" placeholder="End Date" value={this.state.endDate} onChange={this.setEndDate} />
             </Col>
 
             <Col s={4} offset="s2">
