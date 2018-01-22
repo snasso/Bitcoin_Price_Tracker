@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Button, Icon, Navbar, Col, Row, Input, NavItem} from 'react-materialize';
+import {Button, Navbar, Col, Row, Input} from 'react-materialize';
 import Moment from 'moment';
 import './App.css';
 
@@ -16,6 +16,7 @@ class App extends Component {
     this.state = {
       startDate: "",
       endDate: "",
+      investmentValue: "",
       data: {
         x: 'x',
         columns: [[]]
@@ -51,7 +52,7 @@ class App extends Component {
                 categories: [...keys]
               }
             }
-        });
+        }, () => this.moneyCalculator());
       });
   }
 
@@ -87,6 +88,7 @@ class App extends Component {
         startDate: startDate,
         endDate: endDate
       }, () => console.log(this.state));
+
       this.getData();
     }
   }
@@ -94,12 +96,15 @@ class App extends Component {
   dateSelect = (e) => {
     let value = e.target.value;
 
-    if (value === "1") {
-      this.numDaysAgo(7);      
-    } else if (value === "2") {
-      this.numDaysAgo(30);
-    } else if (value === "3") {
-      this.numDaysAgo(365);
+    switch(value) {
+      case "2":
+        this.numDaysAgo(30);
+        break;
+      case "3":
+        this.numDaysAgo(365);
+        break;
+      default:
+        this.numDaysAgo(7);
     }
   }
 
@@ -118,17 +123,25 @@ class App extends Component {
   }
 
   moneyCalculator = () => {
-    let value = this.input.state.value;
-    let data  = this.state.data.columns[1];
 
-    let startValue  = data[1];
-    let endValue    = data[data.length -1];
+    if (this.input.state.value !== undefined && this.input.state.value !== "") {
+      let value = this.input.state.value;
+      let data  = this.state.data.columns[1];
 
-    value = (endValue / startValue * value).toFixed(2);
+      let startValue  = data[1];
+      let endValue    = data[data.length -1];
 
-    this.setState({
-      investmentValue: value
-    });
+      value = (endValue / startValue * value).toFixed(2);
+
+      this.setState({
+        investmentValue: value
+      });
+
+    } else {
+      this.setState({
+        investmentValue: ""
+      });
+    }
   }
 
   render() {
@@ -156,7 +169,7 @@ class App extends Component {
               <Input s={12} ref={(input) => { this.input = input }} type="text" label="Money Invested" placeholder="Money Invested"/>
             </Col>
             <Col s={4}>
-              <div className="money">
+              <div className={(this.state.investmentValue !== "") ? "" : "investmentHidden"}>
                 Investment Value:
                 <br/>
                 ${this.state.investmentValue}

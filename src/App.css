@@ -11,8 +11,7 @@
   float: left;
 }
 
-.hidden a.button-collapse {
+.hidden a.button-collapse, .investmentHidden {
   display: none;
 }
-
 
